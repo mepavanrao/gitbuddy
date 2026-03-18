@@ -1,24 +1,22 @@
 import subprocess
 from gitbuddy.suggester import suggest
-
+from colorama import Fore, Style, init
+init(autoreset=True)
 def get_last_command():
     try:
-        cmd = subprocess.check_output(
-            'powershell "Get-History | Select-Object -Last 1 | ForEach-Object {$_.CommandLine}"',
-            shell=True
-        )
-        return cmd.decode().strip()
+        return input("👉 What did you run last? ")
     except:
-        return "No history found"
+        return ""
 
 def main():
     last_cmd = get_last_command()
 
     suggestion, reason = suggest(last_cmd)
 
-    print("\n🧠 Last command:", last_cmd)
-    print("👉 Suggested:", suggestion)
-    print("💡 Why:", reason, "\n")
-
+    print("\n" + "="*40)
+    print(Fore.CYAN + "🧠 Last command: " + Style.RESET_ALL + last_cmd)
+    print(Fore.GREEN + "👉 Suggested: " + Style.RESET_ALL + suggestion)
+    print(Fore.YELLOW + "💡 Why: " + Style.RESET_ALL + reason)
+    print("="*40 + "\n")
 if __name__ == "__main__":
     main()
